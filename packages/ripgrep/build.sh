@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-OUTPUT_DIR=$1
+OUTPUT_DIR=$(realpath "$1")
 mkdir -p "$OUTPUT_DIR"
 
 echo "Building ripgrep target for WASI..."
