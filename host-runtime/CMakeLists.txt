@@ -24,4 +24,3 @@ target_link_libraries(wasi_host PRIVATE iwasm)
 
 # CRITICAL for Android 16: Enforce 16 KB page-size memory alignment
 target_link_options(wasi_host PRIVATE "-Wl,-z,max-page-size=16384")
-target_shared_link_options(wasi_host PRIVATE "-Wl,-z,max-page-size=16384")
