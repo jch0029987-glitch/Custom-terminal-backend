@@ -4,7 +4,7 @@ import sys
 import json
 import urllib.request
 
-INSTALL_DIR = os.environ.get("TERMUX_PREFIX", "/data/data/com.your.app/files/usr")
+INSTALL_DIR = os.environ.get("TERMUX_PREFIX", "/data/data/com.jeremy.app/files/usr")
 WASM_DIR = os.path.join(INSTALL_DIR, "wasm")
 BIN_DIR = os.path.join(INSTALL_DIR, "bin")
 INDEX_URL = "https://github.com/jch0029987-glitch/Custom-terminal-backend/releases/latest/download/packages.json"
