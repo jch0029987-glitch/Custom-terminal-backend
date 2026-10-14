@@ -22,8 +22,8 @@ target_include_directories(wasi_host PRIVATE
     wamr/core/shared/utils
 )
 
-# Link against WAMR's core vmlib target
-target_link_libraries(wasi_host PRIVATE vmlib)
+# Link against WAMR's core vmlib target and Android's log library
+target_link_libraries(wasi_host PRIVATE vmlib log)
 
 # Enforce 16 KB page-size memory alignment for Android 16
 target_link_options(wasi_host PRIVATE "-Wl,-z,max-page-size=16384")
