@@ -3,7 +3,8 @@ project(wasi_host)
 
 set(CMAKE_C_STANDARD 99)
 
-# Configure WAMR build options
+# Configure WAMR build options & target Android platform explicitly
+set(WAMR_BUILD_PLATFORM android)
 set(WAMR_BUILD_INTERP 1)
 set(WAMR_BUILD_AOT 0)
 set(WAMR_BUILD_JIT 0)
@@ -21,7 +22,7 @@ target_include_directories(wasi_host PRIVATE
     wamr/core/shared/utils
 )
 
-# WAMR registers its core engine target as 'vmlib' when added via add_subdirectory
+# Link against WAMR's core vmlib target
 target_link_libraries(wasi_host PRIVATE vmlib)
 
 # Enforce 16 KB page-size memory alignment for Android 16
