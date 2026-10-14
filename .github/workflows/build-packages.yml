@@ -15,11 +15,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Android NDK
-        uses: nttld/setup-ndk@v3
-        with:
-          ndk-version: r27c
-          android-version: 36
+      - name: Set up Android NDK Path
+        run: |
+          # Locate the NDK path from the pre-installed Android SDK on GitHub runners
+          NDK_PATH=$(find $ANDROID_SDK_ROOT/ndk -mindepth 1 -maxdepth 1 | sort -V | tail -n 1)
+          echo "ANDROID_NDK_HOME=$NDK_PATH" >> $GITHUB_ENV
+          echo "Found Android NDK at: $NDK_PATH"
 
       - name: Install WASI SDK
         run: |
@@ -27,9 +28,13 @@ jobs:
           tar -xzf wasi-sdk-22.0-linux.tar.gz
           sudo mv wasi-sdk-22.0 /opt/wasi-sdk
 
+      - name: Pack Bootstrap Tarball
+        run: |
+          mkdir -p dist/bootstrap
+          cp -r bootstrap/* dist/bootstrap/
+          tar -czf dist/bootstrap/bootstrap-aarch64.tar.gz -C bootstrap .
+
       - name: Build Android 16 Host Runner (WAMR)
-        env:
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
         run: |
           cd host-runtime
           mkdir build && cd build
@@ -63,9 +68,11 @@ jobs:
           files: |
             dist/host/*
             dist/wasm/*
+            dist/bootstrap/bootstrap-aarch64.tar.gz
             dist/packages.json
           tag_name: v1.0.${{ github.run_number }}
           name: "Backend Release v1.0.${{ github.run_number }}"
-          body: "Automated build containing Android 16 host runner, .wasm packages, and updated package index."
+          body: "Automated build containing Android 16 host runner, bootstrap archive, .wasm packages, and updated package index."
           draft: false
           prerelease: false
+          
