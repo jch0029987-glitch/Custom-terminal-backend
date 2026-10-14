@@ -2,8 +2,8 @@
 export TERM=xterm-256color
 
 # Define app storage paths
-export TERMUX_PREFIX="/data/data/com.your.app/files/usr"
-export HOME="/data/data/com.your.app/files/home"
+export TERMUX_PREFIX="/data/data/com.jeremy.app/files/usr"
+export HOME="/data/data/com.jeremy.app/files/home"
 
 # Add your user bin and wasm bin directories to the system PATH
 export PATH="$TERMUX_PREFIX/bin:$PATH"
