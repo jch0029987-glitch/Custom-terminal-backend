@@ -34,6 +34,10 @@ jobs:
           cp -r bootstrap/* dist/bootstrap/
           tar -czf dist/bootstrap/bootstrap-aarch64.tar.gz -C bootstrap .
 
+      - name: Clone WAMR Runtime
+        run: |
+          git clone --depth 1 https://github.com/bytecodealliance/wasm-micro-runtime.git host-runtime/wamr
+
       - name: Build Android 16 Host Runner (WAMR)
         run: |
           cd host-runtime
@@ -75,4 +79,3 @@ jobs:
           body: "Automated build containing Android 16 host runner, bootstrap archive, .wasm packages, and updated package index."
           draft: false
           prerelease: false
-          
