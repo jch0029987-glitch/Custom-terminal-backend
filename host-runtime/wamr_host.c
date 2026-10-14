@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "wasm_export.h" // WAMR header
 
 // Example native bridge entry point for your Android app to trigger .wasm execution
@@ -26,7 +27,7 @@ int execute_wasm_tool(const char* wasm_path, int argc, char** argv) {
     fclose(f);
 
     char error_buf[128];
-    wasm_module_t module = wasm_runtime_load(buffer, size, error_buf, sizeof(error_buf));
+    wasm_module_t module = wasm_runtime_load((uint8_t*)buffer, size, error_buf, sizeof(error_buf));
     if (!module) {
         printf("Error loading WASM module: %s\n", error_buf);
         free(buffer);
