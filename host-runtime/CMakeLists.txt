@@ -21,8 +21,8 @@ target_include_directories(wasi_host PRIVATE
     wamr/core/shared/utils
 )
 
-# Link against the WAMR target using its exact CMake target name
-target_link_libraries(wasi_host PRIVATE iwasm)
+# WAMR registers its core engine target as 'vmlib' when added via add_subdirectory
+target_link_libraries(wasi_host PRIVATE vmlib)
 
 # Enforce 16 KB page-size memory alignment for Android 16
 target_link_options(wasi_host PRIVATE "-Wl,-z,max-page-size=16384")
