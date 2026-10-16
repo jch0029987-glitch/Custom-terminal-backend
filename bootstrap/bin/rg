@@ -1,0 +1,4 @@
+#!/system/bin/sh
+RUNTIME_PATH="/data/data/com.jeremy.app/files/host-runtime/host-runtime"
+WASM_PATH="/data/data/com.jeremy.app/files/wasm/ripgrep.wasm"
+exec "$RUNTIME_PATH" "$WASM_PATH" "$@"
