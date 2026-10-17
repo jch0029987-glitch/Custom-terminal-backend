@@ -31,7 +31,6 @@ jobs:
       - name: Pack Bootstrap Tarball
         run: |
           mkdir -p dist/bootstrap
-          cp -r bootstrap/* dist/bootstrap/
           tar -czf dist/bootstrap/bootstrap-aarch64.tar.gz -C bootstrap .
 
       - name: Clone WAMR Runtime
