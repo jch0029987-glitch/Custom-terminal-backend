@@ -105,8 +105,8 @@ def process_remote_tool():
     subprocess.run(["ar", "x", deb_name])
     data_tar = next((f for f in os.listdir(".") if f.startswith("data.tar")), None)
     
+    extract_path = f"extracted_{tool_name}"
     if data_tar:
-        extract_path = f"extracted_{tool_name}"
         os.makedirs(extract_path, exist_ok=True)
         subprocess.run(["tar", "-xf", data_tar, "-C", extract_path])
         
@@ -115,25 +115,38 @@ def process_remote_tool():
             for file in files:
                 smart_patch_file(os.path.join(root, file))
 
-    # Calculate SHA-256 hash of the original package for verification
+    # Repackage the fully patched files into a clean deployable tarball
+    patched_tar_name = f"{tool_name}_patched.tar.gz"
+    print(f"Repackaging patched files into {patched_tar_name}...")
+    subprocess.run(["tar", "-czf", patched_tar_name, "-C", extract_path, "."])
+
+    # Calculate SHA-256 hash of the PATCHED archive (not the raw upstream deb)
     sha256_hash = hashlib.sha256()
-    with open(deb_name, "rb") as f:
+    with open(patched_tar_name, "rb") as f:
         for byte_block in iter(lambda: f.read(4096), b""):
             sha256_hash.update(byte_block)
     sha256 = sha256_hash.hexdigest()
 
-    # Update packages.json manifest
-    if os.path.exists(MANIFEST_PATH):
-        with open(MANIFEST_PATH, "r") as f:
-            manifest = json.load(f)
+    # Construct raw GitHub Pages download URL for the newly generated patched tarball
+    repo_owner = os.environ.get("GITHUB_REPOSITORY_OWNER", "jch0029987-glitch")
+    repo_name = os.environ.get("GITHUB_REPOSITORY", "Custom-terminal-backend").split("/")[-1]
+    patched_download_url = f"https://{repo_owner}.github.io/{repo_name}/{patched_tar_name}"
+
+    # Load or initialize packages.json safely
+    if os.path.exists(MANIFEST_PATH) and os.path.getsize(MANIFEST_PATH) > 0:
+        try:
+            with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
+                manifest = json.load(f)
+        except json.JSONDecodeError:
+            manifest = {"repository": repo_name, "version": 1, "packages": []}
     else:
-        manifest = {"repository": "CustomCliRepo", "version": 1, "packages": []}
+        manifest = {"repository": repo_name, "version": 1, "packages": []}
 
     new_entry = {
         "name": tool_name,
         "version": version,
         "arch": "arm64-v8a",
-        "url": download_url,
+        "url": patched_download_url,
         "sha256": sha256,
         "binaryName": tool_name
     }
@@ -141,18 +154,14 @@ def process_remote_tool():
     manifest["packages"] = [p for p in manifest["packages"] if p["name"] != tool_name]
     manifest["packages"].append(new_entry)
 
-    with open(MANIFEST_PATH, "w") as f:
+    with open(MANIFEST_PATH, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=4)
         
-    # Cleanup local temp files
-    os.remove(deb_name)
-    if data_tar and os.path.exists(data_tar):
-        os.remove(data_tar)
-    if os.path.exists("control.tar.xz"):
-        os.remove("control.tar.xz")
-    if os.path.exists("debian-binary"):
-        os.remove("debian-binary")
-
+    # Cleanup temporary files (leaving the patched tarball and manifest so git can commit them)
+    for cleanup_file in [deb_name, data_tar, "control.tar.xz", "debian-binary"]:
+        if cleanup_file and os.path.exists(cleanup_file):
+            os.remove(cleanup_file)
+            
     print(f"Successfully processed, smart-patched, and indexed {tool_name} v{version}!")
 
 if __name__ == "__main__":
