@@ -17,6 +17,14 @@
             "url": "https://github.com/jch0029987-glitch/Custom-terminal-backend/releases/download/bash-v5.3.20/bash_5.3.20_patched.tar.gz",
             "sha256": "e392b7b4e102497a9cdafe08e78c72f60bde98609c014bcbc521647d5607d26a",
             "binaryName": "bash"
+        },
+        {
+            "name": "libiconv",
+            "version": "1.19",
+            "arch": "arm64-v8a",
+            "url": "https://github.com/jch0029987-glitch/Custom-terminal-backend/releases/download/libiconv-v1.19/libiconv_1.19_patched.tar.gz",
+            "sha256": "5569163bb7cd842accab614f34bbec895f9ec0a80a3feaba0fa4b9026d9f343b",
+            "binaryName": "libiconv"
         }
     ]
 }
