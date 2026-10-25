@@ -9,6 +9,14 @@
             "url": "https://jch0029987-glitch.github.io/Custom-terminal-backend/git_patched.tar.gz",
             "sha256": "8008933cdb8fbdfd1460fc0537350c7aab695e23e80b7d44e40af6b8197b38ba",
             "binaryName": "git"
+        },
+        {
+            "name": "bash",
+            "version": "5.3.20",
+            "arch": "arm64-v8a",
+            "url": "https://github.com/jch0029987-glitch/Custom-terminal-backend/releases/download/bash-v5.3.20/bash_5.3.20_patched.tar.gz",
+            "sha256": "e392b7b4e102497a9cdafe08e78c72f60bde98609c014bcbc521647d5607d26a",
+            "binaryName": "bash"
         }
     ]
 }
