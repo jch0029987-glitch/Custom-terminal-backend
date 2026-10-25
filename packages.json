@@ -25,6 +25,14 @@
             "url": "https://github.com/jch0029987-glitch/Custom-terminal-backend/releases/download/libiconv-v1.19/libiconv_1.19_patched.tar.gz",
             "sha256": "5569163bb7cd842accab614f34bbec895f9ec0a80a3feaba0fa4b9026d9f343b",
             "binaryName": "libiconv"
+        },
+        {
+            "name": "ncurses",
+            "version": "6.6.20260307+really6.5.20250830",
+            "arch": "arm64-v8a",
+            "url": "https://github.com/jch0029987-glitch/Custom-terminal-backend/releases/download/ncurses-v6.6.20260307+really6.5.20250830/ncurses_6.6.20260307+really6.5.20250830_patched.tar.gz",
+            "sha256": "419bbd6b8538ef22153911abb13eac0296e7e7af598e51fef28e8001cdc7868e",
+            "binaryName": "ncurses"
         }
     ]
 }
