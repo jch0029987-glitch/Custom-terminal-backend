@@ -1,5 +1,14 @@
 {
-  "repository": "Custom-terminal-backend",
-  "version": 1,
-  "packages": []
+    "repository": "Custom-terminal-backend",
+    "version": 1,
+    "packages": [
+        {
+            "name": "git",
+            "version": "2.56.0",
+            "arch": "arm64-v8a",
+            "url": "https://jch0029987-glitch.github.io/Custom-terminal-backend/git_patched.tar.gz",
+            "sha256": "52df1a9f247f73a9b59b309c167c0ea669f7f729550240d770afb1eee99c34ff",
+            "binaryName": "git"
+        }
+    ]
 }
