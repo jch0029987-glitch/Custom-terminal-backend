@@ -1,17 +1,18 @@
-name: Cloud Package Builder
+name: Cloud Package Builder & Release
 
 on:
   repository_dispatch:
     types: [install_tool]
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -19,17 +20,22 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install patchelf and binutils
-        run: sudo apt-get update && sudo apt-get install -y patchelf binutils
+      - name: Install dependencies (patchelf, ar, etc.)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y patchelf binutils tar gzip
 
       - name: Run Cloud Builder Script
         env:
           TOOL_NAME: ${{ github.event.client_payload.tool }}
-        run: python scripts/cloud_builder.py "$TOOL_NAME"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/cloud_builder.py
 
-      - name: Commit and Push Updated Manifest
+      - name: Commit and push updated packages.json manifest
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add packages.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Cloud build: Added/Updated package via app request" && git push)
+          git commit -m "chore: update manifest for ${{ github.event.client_payload.tool }}" || echo "No changes to commit"
+          git push
