@@ -33,6 +33,14 @@
             "url": "https://github.com/jch0029987-glitch/Custom-terminal-backend/releases/download/ncurses-v6.6.20260307+really6.5.20250830/ncurses_6.6.20260307+really6.5.20250830_patched.tar.gz",
             "sha256": "419bbd6b8538ef22153911abb13eac0296e7e7af598e51fef28e8001cdc7868e",
             "binaryName": "ncurses"
+        },
+        {
+            "name": "which",
+            "version": "2.25",
+            "arch": "arm64-v8a",
+            "url": "https://github.com/jch0029987-glitch/Custom-terminal-backend/releases/download/which-v2.25/which_2.25_patched.tar.gz",
+            "sha256": "d80dc586ba3e7c23b3dfda7dae0c65e5acc3a9cf40275cae96cd5842da315065",
+            "binaryName": "which"
         }
     ]
 }
