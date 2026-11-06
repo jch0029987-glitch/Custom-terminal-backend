@@ -39,7 +39,7 @@
             "version": "2.25",
             "arch": "arm64-v8a",
             "url": "https://github.com/jch0029987-glitch/Custom-terminal-backend/releases/download/which-v2.25/which_2.25_patched.tar.gz",
-            "sha256": "b8a46fbfaaf4b2aedd9d857decb7726e5a9fdc99c394bd0546fcfef40f9086d8",
+            "sha256": "d6f572d273c30c8a51c592f69bd544d3f2b8d544727235d1d210737448320866",
             "binaryName": "which"
         }
     ]
